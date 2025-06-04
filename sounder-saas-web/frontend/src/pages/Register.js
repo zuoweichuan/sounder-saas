@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Container, Typography, Box, TextField, Button, Paper,
-  CircularProgress, Alert, Grid
+  CircularProgress, Alert, Grid, Divider
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ApiService from '../utils/ApiService';
@@ -15,7 +15,10 @@ const Register = () => {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    // 添加租户字段
+    name: '',          // 租户名称
+    companyName: ''    // 公司名称
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -30,10 +33,10 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     
-    const { username, email, password, confirmPassword } = formData;
+    const { username, email, password, confirmPassword, name, companyName } = formData;
     
-    // 基本验证
-    if (!username || !email || !password || !confirmPassword) {
+    // 验证所有必填字段
+    if (!username || !email || !password || !confirmPassword || !name || !companyName) {
       setError('请填写所有必填字段');
       return;
     }
@@ -47,17 +50,14 @@ const Register = () => {
       setLoading(true);
       setError('');
       
-      // 调用注册API
-      const response = await apiService.register(username, email, password);
+      // 调用注册API，传递租户信息
+      await apiService.register(username, email, password, name, companyName);
       
-      // 注册成功
-      console.log('注册成功:', response);
-      
-      // 跳转到登录页
-      navigate('/login');
+      // 注册成功，跳转到登录页
+      navigate('/login', { state: { message: '注册成功，请登录' } });
     } catch (err) {
       console.error('注册失败:', err);
-      setError('注册失败，请稍后再试或使用其他电子邮箱');
+      setError('注册失败: ' + (err.message || '请稍后再试'));
     } finally {
       setLoading(false);
     }
@@ -117,6 +117,36 @@ const Register = () => {
             onChange={handleChange}
             disabled={loading}
           />
+          
+          {/* 租户信息字段 */}
+          <Divider sx={{ my: 2 }}>租户信息</Divider>
+          
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="租户名称"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            disabled={loading}
+            helperText="您的组织或团队的名称"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="companyName"
+            label="公司名称"
+            name="companyName"
+            value={formData.companyName}
+            onChange={handleChange}
+            disabled={loading}
+          />
+          
+          <Divider sx={{ my: 2 }}>密码设置</Divider>
+          
           <TextField
             margin="normal"
             required
