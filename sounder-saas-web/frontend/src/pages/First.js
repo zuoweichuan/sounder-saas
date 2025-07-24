@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Container, Typography, Box, Paper, Grid,
-  IconButton, BottomNavigation, BottomNavigationAction
+  Container, Typography, Box, Grid, Paper, IconButton, BottomNavigation, BottomNavigationAction
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import HomeIcon from '@mui/icons-material/Home';
 import GridViewIcon from '@mui/icons-material/GridView';
 import WarningIcon from '@mui/icons-material/Warning';
 import PersonIcon from '@mui/icons-material/Person';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import SpeakerIcon from '@mui/icons-material/Speaker';
-import MicIcon from '@mui/icons-material/Mic';
+import ControlCameraIcon from '@mui/icons-material/ControlCamera';
+import GroupIcon from '@mui/icons-material/Group';
+import WifiIcon from '@mui/icons-material/Wifi';
+import VideocamIcon from '@mui/icons-material/Videocam';
 
 const First = () => {
   const navigate = useNavigate();
-  const [navValue, setNavValue] = useState(1); // 默认选中"服务"
+  const [navValue, setNavValue] = useState(1);
 
   return (
     <Container>
@@ -25,62 +25,135 @@ const First = () => {
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h4" component="h1">
-            服务
+            服务管理中心
           </Typography>
         </Box>
         
-        <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
-            <Box 
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            <Paper 
+              elevation={3} 
               sx={{ 
+                p: 4, 
+                height: 200, 
                 display: 'flex', 
                 flexDirection: 'column', 
-                alignItems: 'center', 
-                mb: 2,
-                cursor: 'pointer'
+                justifyContent: 'center', 
+                alignItems: 'center',
+                cursor: 'pointer',
+                '&:hover': { boxShadow: 6 }
               }}
-              onClick={() => navigate('/id-check')}
+              onClick={() => navigate('/control')}
             >
-              <CreditCardIcon sx={{ fontSize: 60, mb: 1 }} />
-              <Typography variant="h6">身份证号码查询</Typography>
-            </Box>
-          </Box>
-          
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Box 
+              <ControlCameraIcon sx={{ fontSize: 60, mb: 2, color: 'primary.main' }} />
+              <Typography variant="h5" align="center">
+                音响控制
+              </Typography>
+              <Typography variant="body2" align="center" sx={{ mt: 1 }}>
+                控制音响设备的角度和位置
+              </Typography>
+            </Paper>
+              <Paper 
+                elevation={3} 
                 sx={{ 
+                  p: 4, 
+                  height: 200, 
                   display: 'flex', 
                   flexDirection: 'column', 
+                  justifyContent: 'center', 
                   alignItems: 'center',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  '&:hover': { boxShadow: 6 }
                 }}
-                onClick={() => navigate('/control')}
+                onClick={() => navigate('/video-test')}
               >
-                <SpeakerIcon sx={{ fontSize: 80, mb: 1 }} />
-                <Typography variant="h6">控制音响</Typography>
-              </Box>
-            </Grid>
-            
-            <Grid item xs={12} md={6}>
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center',
-                  cursor: 'pointer'
-                }}
-                onClick={() => navigate('/broadcast')}
-              >
-                <MicIcon sx={{ fontSize: 80, mb: 1 }} />
-                <Typography variant="h6">喊话</Typography>
-              </Box>
-            </Grid>
+                <VideocamIcon sx={{ fontSize: 60, mb: 2, color: 'success.main' }} />
+                <Typography variant="h5" align="center">
+                  视频流测试
+                </Typography>
+                <Typography variant="body2" align="center" sx={{ mt: 1 }}>
+                  测试本地摄像头和视频流显示
+                </Typography>
+              </Paper>
           </Grid>
-        </Paper>
+          
+          <Grid item xs={12} md={6}>
+            <Paper 
+              elevation={3} 
+              sx={{ 
+                p: 4, 
+                height: 200, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'center', 
+                alignItems: 'center',
+                cursor: 'pointer',
+                '&:hover': { boxShadow: 6 }
+              }}
+              onClick={() => navigate('/target-management')}
+            >
+              <GroupIcon sx={{ fontSize: 60, mb: 2, color: 'secondary.main' }} />
+              <Typography variant="h5" align="center">
+                目标库管理
+              </Typography>
+              <Typography variant="body2" align="center" sx={{ mt: 1 }}>
+                管理人员数据库和分组信息
+              </Typography>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Paper 
+              elevation={3} 
+              sx={{ 
+                p: 4, 
+                height: 200, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'center', 
+                alignItems: 'center',
+                cursor: 'pointer',
+                '&:hover': { boxShadow: 6 }
+              }}
+              onClick={() => navigate('/mqtt-test')}
+            >
+              <WifiIcon sx={{ fontSize: 60, mb: 2, color: 'info.main' }} />
+              <Typography variant="h5" align="center">
+                MQTT通信测试
+              </Typography>
+              <Typography variant="body2" align="center" sx={{ mt: 1 }}>
+                测试MQTT连接和消息通信
+              </Typography>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Paper 
+              elevation={3} 
+              sx={{ 
+                p: 4, 
+                height: 200, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'center', 
+                alignItems: 'center',
+                cursor: 'pointer',
+                '&:hover': { boxShadow: 6 }
+              }}
+              onClick={() => navigate('/video-test')}
+            >
+              <VideocamIcon sx={{ fontSize: 60, mb: 2, color: 'success.main' }} />
+              <Typography variant="h5" align="center">
+                视频流测试
+              </Typography>
+              <Typography variant="body2" align="center" sx={{ mt: 1 }}>
+                测试视频流连接和显示
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
       </Box>
       
-      {/* 底部导航栏 - 与原HarmonyOS应用一致 */}
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation
           showLabels
@@ -93,7 +166,7 @@ const First = () => {
                 navigate('/');
                 break;
               case 1:
-                // 当前页面，无需导航
+                // 当前页面
                 break;
               case 2:
                 navigate('/second');
@@ -117,3 +190,4 @@ const First = () => {
 };
 
 export default First;
+

@@ -37,7 +37,7 @@ const Navbar = () => {
     <AppBar position="static" sx={{ bgcolor: '#1696db' }}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          音响控制系统
+          智能追踪监控系统
         </Typography>
         
         {isAuthenticated ? (

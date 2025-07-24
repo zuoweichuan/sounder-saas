@@ -8,14 +8,14 @@ class MQTTService {
     this.isConnected = false;
     this.messageHandlers = {};
     
-    // 与原应用相同的MQTT配置
+    // 本地MQTT配置
     this.config = {
-      url: 'mqtt://cb27b984ca.st1.iotda-device.cn-north-4.myhuaweicloud.com:1883', 
-      clientId: '67cfb54724d772325524bd92_sounder0_0_0_2025031114',
-      userName: '67cfb54724d772325524bd92_sounder0',
-      password: 'fa186b2c9e17abc682f2aea8d97191fe468bb1e4850b99357f7b2ccd4441d529',
-      topic1: '/test/M2M/01',  // 发送通道
-      topic2: '/test/M2M/02',  // 接收通道
+      url: 'ws://localhost:9001',
+      clientId: `sounder_client_${Math.random().toString(16).substr(2, 8)}`,
+      userName: '',
+      password: '',
+      topic1: 'sounder/commands',   // 发送通道
+      topic2: 'sounder/responses',  // 接收通道
       qos: 1
     };
   }
@@ -36,7 +36,10 @@ class MQTTService {
       this.client = mqtt.connect(this.config.url, {
         clientId: this.config.clientId,
         username: this.config.userName,
-        password: this.config.password
+        password: this.config.password,
+        clean: true,
+        connectTimeout: 4000,
+        reconnectPeriod: 1000
       });
       
       this.client.on('connect', () => {

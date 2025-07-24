@@ -9,19 +9,17 @@ import Third from './pages/Third';
 import Control from './pages/Control';
 import Broadcast from './pages/Broadcast';
 import IdCheck from './pages/IdCheck';
+import MQTTTest from './pages/MQTTTest';
 import ApiService from './utils/ApiService';
+import VideoTest from './pages/VideoTest';
 import './App.css';
 
-// 简化的路由保护组件 - 只依赖localStorage中的token
+// 简化的路由保护组件
 const ProtectedRoute = ({ children }) => {
   const apiService = ApiService.getInstance();
-  
-  // 直接检查token，不再尝试API调用
   const isAuthenticated = apiService.isAuthenticated();
-  console.log('路由保护检查，认证状态:', isAuthenticated);
   
   if (!isAuthenticated) {
-    console.log('未认证，重定向到登录页面');
     return <Navigate to="/login" />;
   }
   
@@ -77,6 +75,18 @@ function App() {
               <IdCheck />
             </ProtectedRoute>
           } />
+          
+          <Route path="/mqtt-test" element={
+            <ProtectedRoute>
+              <MQTTTest />
+            </ProtectedRoute>
+          } />
+
+	  <Route path="/video-test" element={
+	    <ProtectedRoute>
+    	      <VideoTest />
+  	    </ProtectedRoute>
+	  } />
         </Routes>
       </div>
     </Router>

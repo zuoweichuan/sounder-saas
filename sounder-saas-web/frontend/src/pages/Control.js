@@ -6,11 +6,13 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MQTTService from '../utils/MQTTService';
+import SystemStatusService from '../utils/SystemStatusService';
 
 const Control = () => {
   const navigate = useNavigate();
   const mqttService = MQTTService.getInstance();
-  
+  const systemStatus = SystemStatusService.getInstance();
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
@@ -59,6 +61,10 @@ const Control = () => {
     const newAngle = xAngle + change;
     if (newAngle >= -90 && newAngle <= 90) {
       setXAngle(newAngle);
+
+       // 更新系统状态
+	systemStatus.updateSpeakerAngle({ x: newAngle, y: yAngle });
+
       // 发送MQTT消息
       mqttService.pushMessage1(`X:${change > 0 ? '13.333' : '-13.333'}`).catch(err => {
         console.error('发送MQTT消息失败:', err);
@@ -72,6 +78,9 @@ const Control = () => {
     const newAngle = yAngle + change;
     if (newAngle >= -90 && newAngle <= 90) {
       setYAngle(newAngle);
+
+	//更新系统状态
+	systemStatus.updateSpeakerAngle({ x: newAngle, y: yAngle });
       // 发送MQTT消息
       mqttService.pushMessage1(`Y:${change > 0 ? '14.2857' : '-14.2857'}`).catch(err => {
         console.error('发送MQTT消息失败:', err);
